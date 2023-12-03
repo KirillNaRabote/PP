@@ -71,13 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\study\pp\pp_lw\pp_lw\cv\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\study\pp\pp_lw\pp_lw\cv\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\study\pp\pp_lw\pp_lw\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\study\pp\pp_lw\pp_lw\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\study\pp\pp_lw\pp_lw\cv\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\study\pp\pp_lw\pp_lw\cv\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\study\pp\pp_lw\pp_lw\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\study\pp\pp_lw\pp_lw\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
