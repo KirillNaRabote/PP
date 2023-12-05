@@ -52,17 +52,13 @@ DWORD WINAPI DoDeposit(CONST LPVOID lpParameter)
 {
 	DWORD dwWaitResult = WaitForSingleObject(mtx, INFINITE);
 	if (dwWaitResult == WAIT_OBJECT_0) {
-		// The mutex is acquired
-		// Perform critical section operations
 		Deposit((int)lpParameter);
 
-		// Release the mutex
 		ReleaseMutex(mtx);
 	}
 	else {
-		// Failed to acquire the mutex
-		// Handle error
 		std::cout << "Failed to acquire the mutex" << std::endl;
+		return NULL;
 	}
 	ExitThread(0);
 }
@@ -71,17 +67,13 @@ DWORD WINAPI DoWithdraw(CONST LPVOID lpParameter)
 {
 	DWORD dwWaitResult = WaitForSingleObject(mtx, INFINITE);
 	if (dwWaitResult == WAIT_OBJECT_0) {
-		// The mutex is acquired
-		// Perform critical section operations
 		Withdraw((int)lpParameter);
 
-		// Release the mutex
 		ReleaseMutex(mtx);
 	}
 	else {
-		// Failed to acquire the mutex
-		// Handle error
 		std::cout << "Failed to acquire the mutex" << std::endl;
+		return NULL;
 	}
 	ExitThread(0);
 }
@@ -90,7 +82,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	HANDLE* handles = new HANDLE[50];
 
-	mtx = CreateMutex(NULL, FALSE, NULL);
+	mtx = CreateMutex(NULL, FALSE, _T("mutex"));
 	if (mtx == NULL)
 	{
 		std::cout << "Mutex can't be create" << std::endl;
@@ -107,8 +99,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		ResumeThread(handles[i]);
 	}
 
-
-	// ожидание окончания работы двух потоков
 	WaitForMultipleObjects(50, handles, true, INFINITE);
 	printf("Final Balance: %d\n", GetBalance());
 
