@@ -50,32 +50,75 @@ void Withdraw(int money) {
 
 DWORD WINAPI DoDeposit(CONST LPVOID lpParameter)
 {
-	DWORD dwWaitResult = WaitForSingleObject(mtx, INFINITE);
-	if (dwWaitResult == WAIT_OBJECT_0) {
-		Deposit((int)lpParameter);
+	DWORD dwWaitResult;
 
-		ReleaseMutex(mtx);
-	}
-	else {
-		std::cout << "Failed to acquire the mutex" << std::endl;
-		return NULL;
+	// Request ownership of mutex.
+	dwWaitResult = WaitForSingleObject(
+		mtx,    // handle to mutex
+		INFINITE);  // no time-out interval
+
+	switch (dwWaitResult)
+	{
+		// The thread got ownership of the mutex
+	case WAIT_OBJECT_0:
+		__try {
+			Deposit((int)lpParameter);
+		}
+
+		__finally {
+			// Release ownership of the mutex object
+			if (!ReleaseMutex(mtx))
+			{
+				// Handle error.
+				std::cout << "Got a error!" << std::endl;
+			}
+		}
+		break;
+
+		// The thread got ownership of an abandoned mutex
+		// The database is in an indeterminate state
+	case WAIT_ABANDONED:
+		return FALSE;
 	}
 	ExitThread(0);
+	return TRUE;
 }
 
 DWORD WINAPI DoWithdraw(CONST LPVOID lpParameter)
 {
-	DWORD dwWaitResult = WaitForSingleObject(mtx, INFINITE);
-	if (dwWaitResult == WAIT_OBJECT_0) {
-		Withdraw((int)lpParameter);
+	DWORD dwWaitResult;
 
-		ReleaseMutex(mtx);
-	}
-	else {
-		std::cout << "Failed to acquire the mutex" << std::endl;
-		return NULL;
+	// Request ownership of mutex.
+
+	dwWaitResult = WaitForSingleObject(
+		mtx,    // handle to mutex
+		INFINITE);  // no time-out interval
+
+	switch (dwWaitResult)
+	{
+		// The thread got ownership of the mutex
+	case WAIT_OBJECT_0:
+		__try {
+			Withdraw((int)lpParameter);
+		}
+
+		__finally {
+			// Release ownership of the mutex object
+			if (!ReleaseMutex(mtx))
+			{
+				// Handle error.
+				std::cout << "Got a error!" << std::endl;
+			}
+		}
+		break;
+
+		// The thread got ownership of an abandoned mutex
+		// The database is in an indeterminate state
+	case WAIT_ABANDONED:
+		return FALSE;
 	}
 	ExitThread(0);
+	return TRUE;
 }
 
 int _tmain(int argc, _TCHAR* argv[])
