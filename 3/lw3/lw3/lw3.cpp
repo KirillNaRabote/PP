@@ -119,8 +119,9 @@ int main(int argc, char* argv[])
 
 	for (size_t i = 0; i < numOfThreads; i++)
 	{
-		handles[i] = CreateThread(NULL, 0, &ThreadProc, (LPVOID)&(args[i]), NULL,
+		handles[i] = CreateThread(NULL, 0, &ThreadProc, (LPVOID)&(args[i]), CREATE_SUSPENDED,
 			NULL);
+		ResumeThread(handles[i]);
 	}
 
 	WaitForMultipleObjects(numOfThreads, handles, true, INFINITE);

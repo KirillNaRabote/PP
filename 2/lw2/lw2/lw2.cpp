@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
     }
 
     for (size_t i = 0; i < threadsNumber; i++)
-    {      
+    {
         threads[i] = CreateThread(NULL, 0, &BlurImage, (LPVOID)&(args[i]), CREATE_SUSPENDED, NULL);
         ResumeThread(threads[i]);
     }
